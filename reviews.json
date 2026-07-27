@@ -1,0 +1,12 @@
+[
+  {
+    "label": "your-hero-product",
+    "asin": "B0EXAMPLE1",
+    "pages": 3
+  },
+  {
+    "label": "your-second-product",
+    "asin": "B0EXAMPLE2",
+    "pages": 3
+  }
+]

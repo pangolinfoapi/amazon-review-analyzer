@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store
+.env
+
+# NOTE: reviews.json, data/ and reports/ are intentionally committed —
+# they are your public analysis history, and the GitHub Actions workflow
+# needs reviews.json + the SQLite history to compute trends.

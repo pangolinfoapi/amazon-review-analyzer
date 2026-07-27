@@ -1,0 +1,37 @@
+name: Daily review analysis
+
+on:
+  schedule:
+    - cron: "30 2 * * *" # 02:30 UTC every day
+  workflow_dispatch: # allow manual runs from the Actions tab
+
+permissions:
+  contents: write # let the bot commit data/reports back to this repo
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Analyze reviews and build report
+        env:
+          PANGOLIN_TOKEN: ${{ secrets.PANGOLIN_TOKEN }}
+        run: |
+          python amazon_review_analyzer.py run
+          python amazon_review_analyzer.py report
+
+      - name: Commit results
+        run: |
+          git config user.name "review-bot"
+          git config user.email "review-bot@users.noreply.github.com"
+          git add reviews.json data/ reports/
+          git commit -m "chore: daily review analysis $(date -u +%F)" || echo "no changes"
+          git push
